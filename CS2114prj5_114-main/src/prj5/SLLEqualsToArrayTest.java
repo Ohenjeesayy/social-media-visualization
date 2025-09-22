@@ -1,28 +1,18 @@
 package prj5;
-//Virginia Tech Honor Code Pledge:
-//
-//As a Hokie, I will conduct myself with honor and integrity at all times.
-//I will not lie, cheat, or steal,
-//nor will I accept the actions of those who do.
-//Arshia Saeidifar arshias@vt.edu
-//Prince princeg@vt.edu
-//Sakdipong Rodphong Sakdipong@vt.edu
-//Zaybish  Tariq Zaybish@vt.edu
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
-import student.TestCase;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
- * 
- * Tests the equals and toArray methods of a singly linked list.
- * 
- * @author Arshia Saeidifar
- * @version 2025
- *
+ * SLLEqualsToArrayTest — JUnit 5 version (no student.TestCase).
+ * Keep your SinglyLinkedList API exactly as-is.
  */
-public class SLLEqualsToArrayTest extends TestCase {
+public class SLLEqualsToArrayTest {
 
     private SinglyLinkedList<String> emptyListA;
     private SinglyLinkedList<String> emptyListB;
@@ -32,18 +22,13 @@ public class SLLEqualsToArrayTest extends TestCase {
     private SinglyLinkedList<String> bigListB;
     private String nullObject;
 
-    //
-    /**
-     * Initializes 2 empty lists, 2 lists with a small number of items, and 2
-     * lists
-     * with a large number of items
-     */
-    public void setUp() {
-        emptyListA = new SinglyLinkedList<String>();
-        emptyListB = new SinglyLinkedList<String>();
+    @BeforeEach
+    void setUp() {
+        emptyListA = new SinglyLinkedList<>();
+        emptyListB = new SinglyLinkedList<>();
 
-        smallListA = new SinglyLinkedList<String>();
-        smallListB = new SinglyLinkedList<String>();
+        smallListA = new SinglyLinkedList<>();
+        smallListB = new SinglyLinkedList<>();
 
         smallListA.add("football");
         smallListA.add("swimming");
@@ -53,78 +38,71 @@ public class SLLEqualsToArrayTest extends TestCase {
         smallListB.add("swimming");
         smallListB.add("gymnastics");
 
-        bigListA = new SinglyLinkedList<String>();
-
+        bigListA = new SinglyLinkedList<>();
         for (int i = 0; i < 100; i++) {
             bigListA.add("sport" + i);
         }
 
-        bigListB = new SinglyLinkedList<String>();
+        bigListB = new SinglyLinkedList<>();
         for (int i = 0; i < 100; i++) {
             bigListB.add("sport" + i);
         }
 
-        // to be explicit
         nullObject = null;
     }
 
-
-    /**
-     * Tests the equals method on an empty list
-     */
+    // equals — empty list cases
+    @Test
     @SuppressWarnings("unlikely-arg-type")
-    public void testEqualsEmptyList() {
+    void testEqualsEmptyList() {
         assertEquals(emptyListA, emptyListA);
         assertEquals(emptyListA, emptyListB);
         assertFalse(emptyListA.equals(nullObject));
         assertFalse(emptyListA.equals("soccer"));
         assertFalse(emptyListA.equals(smallListA));
         assertFalse(smallListA.equals(emptyListA));
+
         emptyListB.add("jump roping");
         assertFalse(emptyListA.equals(emptyListB));
+
         smallListA.clear();
         assertEquals(emptyListA, smallListA);
 
         emptyListA.clear();
         emptyListB.clear();
         assertEquals(emptyListA, emptyListB);
-
     }
 
+    // insertionSort edge cases
+    @Test
+    void testInsertionSortEdgeCases() {
+        Comparator<String> alpha = Comparator.naturalOrder();
 
-    /**
-     * Verifies that insertionSort() immediately returns (does nothing) when the
-     * list is empty or when it holds just a single element.
-     */
-    public void testInsertionSortEdgeCases() {
-        Comparator<String> alpha = Comparator.naturalOrder(); 
-
-        // Test sorting an empty list
+        // empty list
         SinglyLinkedList<String> emptyList = new SinglyLinkedList<>();
         emptyList.insertionSort(alpha);
         assertTrue(emptyList.isEmpty());
         assertEquals(0, emptyList.size());
 
-        // Test sorting a list with one element
-        SinglyLinkedList<String> singleElementList = new SinglyLinkedList<>();
-        singleElementList.add("only");
-        singleElementList.insertionSort(alpha);
-        assertEquals(1, singleElementList.size());
-        assertEquals("only", singleElementList.get(0));
+        // single element
+        SinglyLinkedList<String> single = new SinglyLinkedList<>();
+        single.add("only");
+        single.insertionSort(alpha);
+        assertEquals(1, single.size());
+        assertEquals("only", single.get(0));
     }
 
-
-    /**
-     * Tests the equals method on a list with a small number of items in it
-     */
+    // equals — small list + index/exception behavior
+    @Test
     @SuppressWarnings("unlikely-arg-type")
-    public void testEqualsSmallList() {
+    void testEqualsSmallList() {
         assertEquals(smallListA, smallListA);
         assertEquals(smallListA, smallListB);
         assertFalse(smallListA.equals(nullObject));
         assertFalse(smallListA.equals("football"));
         assertFalse(smallListA.equals(bigListA));
         assertFalse(smallListA.equals(emptyListA));
+
         smallListB.add("jump roping");
         assertFalse(smallListA.equals(smallListB));
 
@@ -138,79 +116,34 @@ public class SLLEqualsToArrayTest extends TestCase {
         smallListA.add(2, "Ali");
         assertTrue(smallListA.contains("Ali"));
 
-        Exception myExp7 = null;
-        try {
-            smallListA.add(null);
-
-        }
-        catch (Exception e) {
-            myExp7 = e;
-        }
-        assertNotNull(myExp7);
-
-        Exception myExp = null;
-        try {
-            smallListA.add(4, null);
-
-        }
-        catch (Exception e) {
-            myExp = e;
-        }
-        assertNotNull(myExp);
-
-        Exception myExp2 = null;
-        try {
-            smallListA.add(-1, "Ali");
-
-        }
-        catch (Exception e) {
-            myExp2 = e;
-        }
-        assertNotNull(myExp2);
-
-        Exception myExp3 = null;
-        try {
-            smallListA.add(7, "Ali");
-
-        }
-        catch (Exception e) {
-            myExp3 = e;
-        }
-        assertNotNull(myExp3);
+        // null adds & bad indices should throw (match your original expectations)
+        assertThrows(Exception.class, () -> smallListA.add(null));
+        assertThrows(Exception.class, () -> smallListA.add(4, null));
+        assertThrows(Exception.class, () -> smallListA.add(-1, "Ali"));
+        assertThrows(Exception.class, () -> smallListA.add(7, "Ali"));
 
         smallListA.add(0, "Emad");
-
         assertTrue(smallListA.contains("Emad"));
-        assertEquals(smallListA.get(0), "Emad");
+        assertEquals("Emad", smallListA.get(0));
 
-        Exception myExp4 = null;
-        try {
-            smallListA.get(10);
-
-        }
-        catch (Exception e) {
-            myExp4 = e;
-        }
-        assertNotNull(myExp4);
-
+        assertThrows(Exception.class, () -> smallListA.get(10));
     }
 
-
-    /**
-     * Tests the equals method on a list with a large number of items in it
-     */
+    // equals — big list scenarios
+    @Test
     @SuppressWarnings("unlikely-arg-type")
-    public void testEqualsBigList() {
+    void testEqualsBigList() {
         assertEquals(bigListA, bigListA);
         assertEquals(bigListA, bigListB);
         assertFalse(bigListA.equals(nullObject));
         assertFalse(bigListA.equals("football"));
         assertFalse(bigListA.equals(smallListA));
         assertFalse(bigListA.equals(emptyListA));
+
         bigListB.add("jump roping");
         assertFalse(bigListA.equals(bigListB));
 
-        // Same content, same size, but reversed
+        // reversed
         bigListB.clear();
         assertFalse(bigListA.equals(bigListB));
         for (int i = 100; i > 0; i--) {
@@ -218,7 +151,7 @@ public class SLLEqualsToArrayTest extends TestCase {
         }
         assertFalse(bigListA.equals(bigListB));
 
-        // one a subset of the other but with dups
+        // dup halves
         bigListB.clear();
         assertFalse(bigListA.equals(bigListB));
         for (int i = 0; i < 50; i++) {
@@ -229,53 +162,43 @@ public class SLLEqualsToArrayTest extends TestCase {
         }
         assertFalse(bigListA.equals(bigListB));
 
-        // make them equal again
+        // equal again
         bigListB.clear();
         assertFalse(bigListA.equals(bigListB));
         for (int i = 0; i < 100; i++) {
             bigListB.add("sport" + i);
         }
         assertEquals(bigListA, bigListB);
-
     }
 
-
-    /**
-     * Tests the toArray method on an empty list
-     */
-    public void testToArrayEmpty() {
-
+    // toArray — empty and one-item checks
+    @Test
+    void testToArrayEmpty() {
         Object[] emptyArray = {};
         assertTrue(Arrays.equals(emptyListA.toArray(), emptyArray));
         assertTrue(Arrays.equals(emptyListA.toArray(), emptyListB.toArray()));
         assertFalse(Arrays.equals(emptyListA.toArray(), smallListB.toArray()));
+
         Object[] oneItemArray = { "one thing" };
         emptyListA.add("one thing");
         assertTrue(Arrays.equals(emptyListA.toArray(), oneItemArray));
-
     }
 
-
-    /**
-     * Tests the toArray method on a list with items in it
-     */
-    public void testToArrayContents() {
-
+    // toArray contents + toString
+    @Test
+    void testToArrayContents() {
         Object[] origArray = { "football", "swimming", "gymnastics" };
         String origArrayTest = "{football, swimming, gymnastics}";
         assertTrue(Arrays.equals(smallListA.toArray(), origArray));
         assertTrue(Arrays.equals(emptyListA.toArray(), emptyListB.toArray()));
         assertFalse(Arrays.equals(smallListA.toArray(), bigListB.toArray()));
         assertTrue(smallListA.contains("football"));
-        assertEquals(smallListA.toString(), origArrayTest);
+        assertEquals(origArrayTest, smallListA.toString());
     }
 
-
-    // ----------------------------------------------------------
-    /**
-     * Testing the remove method.
-     */
-    public void testRemove() {
+    // remove behavior + exceptions
+    @Test
+    void testRemove() {
         assertTrue(smallListA.remove(2));
         assertTrue(smallListA.remove(0));
         assertTrue(smallListB.remove(1));
@@ -286,36 +209,13 @@ public class SLLEqualsToArrayTest extends TestCase {
         assertTrue(bigListA.remove("sport99"));
         assertTrue(bigListA.remove("sport0"));
 
-        Exception myExp = null;
-        try {
-            smallListA.remove(-1);
-
-        }
-        catch (Exception e) {
-            myExp = e;
-        }
-        assertNotNull(myExp);
-
-        Exception myExp2 = null;
-        try {
-            smallListA.remove(10);
-
-        }
-        catch (Exception e) {
-            myExp2 = e;
-        }
-        assertNotNull(myExp2);
-
+        assertThrows(Exception.class, () -> smallListA.remove(-1));
+        assertThrows(Exception.class, () -> smallListA.remove(10));
     }
 
-
-    // ----------------------------------------------------------
-    /**
-     * Testing the last index mehtod.
-     */
-    public void testLastIndex() {
+    // lastIndex
+    @Test
+    void testLastIndex() {
         assertEquals(1, smallListA.lastIndexOf("swimming"));
-
     }
-
 }

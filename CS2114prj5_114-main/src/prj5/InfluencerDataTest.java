@@ -1,40 +1,25 @@
 package prj5;
-//Virginia Tech Honor Code Pledge:
-//
-//As a Hokie, I will conduct myself with honor and integrity at all times.
-//I will not lie, cheat, or steal,
-//nor will I accept the actions of those who do.
-//Arshia Saeidifar arshias@vt.edu
-//Prince princeg@vt.edu
-//Sakdipong Rodphong Sakdipong@vt.edu
-//Zaybish  Tariq Zaybish@vt.edu
 
+import static org.junit.jupiter.api.Assertions.*;
 
-import student.TestCase;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
- * Test class for InfluencerData.
- * Verifies correct construction and getter behavior.
- * 
- * @author Arshia Saeidifar
- * @version 2025-04-22
+ * Test class for InfluencerData (JUnit 5).
+ * Verifies construction and getters.
  */
-public class InfluencerDataTest extends TestCase {
+public class InfluencerDataTest {
 
     private InfluencerData data;
 
-    /**
-     * Sets up a sample data object.
-     */
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         data = new InfluencerData("March", 150, 12, 1200, 45, 9800);
     }
 
-
-    /**
-     * Tests all the getter methods.
-     */
-    public void testGetters() {
+    @Test
+    void testGetters() {
         assertEquals("March", data.getMonth());
         assertEquals(150, data.getLikes());
         assertEquals(12, data.getPosts());
@@ -43,11 +28,8 @@ public class InfluencerDataTest extends TestCase {
         assertEquals(9800, data.getViews());
     }
 
-
-    /**
-     * Tests the toString method.
-     */
-    public void testToString() {
+    @Test
+    void testToString() {
         String output = data.toString();
         assertTrue(output.contains("March"));
         assertTrue(output.contains("likes=150"));
